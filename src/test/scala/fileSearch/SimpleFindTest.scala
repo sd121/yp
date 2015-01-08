@@ -60,6 +60,21 @@ class SimpleFindTest extends FlatSpec with Matchers {
        
   }
   
-  
+  "getListOfFiles" should "list files in a given directory" in {
+
+       mkdir("Foo")
+       writeFile("Foo/foo1.txt", "test1")
+       writeFile("Foo/foo2.txt", "test2")
+       
+       mkdir("Bar")
+       
+       getListOfFiles(new File("Foo")) should be 
+        (List( new File("Foo/foo1.txt"), new File("Foo/foo2.txt")))
+       
+       getListOfFiles(new File("Bar")) should be (List[File]())
+       
+       removeDir("Foo")  
+       removeDir("Bar")
+  }
 
 }

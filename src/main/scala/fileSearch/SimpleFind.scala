@@ -30,5 +30,14 @@ object SimpleFind{
 	}   
 	
 
-	
+	// getListOfFiles(dir: File):List[File]
+  // given a valid directory, returns all files in that directory
+  // Input: a file Object of directory type
+  // Output: list of files in that directory
+  // given a valid directory, returns all files in that directory
+  def getListOfFiles(dir: File):List[File] = {
+      dir.listFiles.filter(_.isFile).toList
+      
+  }
+  
 }
