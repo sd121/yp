@@ -44,20 +44,13 @@ class SimpleFindTest extends FlatSpec with Matchers {
        mkdir("Foo/Bar/Bar1")
        mkdir("Foo/Bar/Bar2")
        
-       getListOfSubDirectories(new File("Foo")).get should be 
+       getListOfSubDirectories(new File("Foo")) should be 
         (List( new File("Foo"), new File("Foo/Bar"), new File("Foo/Bar/Bar1"), 
             new File("Foo/Bar/Bar2")))
        
-       getListOfSubDirectories(new File("Foo/Bar/Bar2")).get should be (List(new File("Foo/Bar/Bar2")))
-       
-       getListOfSubDirectories(new File("")) should be (None)
-       
-       getListOfSubDirectories(new File("Fab")) should be (None)
-       
-       getListOfSubDirectories(new File("Fab///")) should be  (None)
-       
-       removeDir("Foo")  
-       
+       getListOfSubDirectories(new File("Foo/Bar/Bar2")) should be (List(new File("Foo/Bar/Bar2")))
+             
+       removeDir("Foo")        
   }
   
   "getListOfFiles" should "list files in a given directory" in {
@@ -82,11 +75,9 @@ class SimpleFindTest extends FlatSpec with Matchers {
        mkdir("Foo")
        writeFile("Foo/foo1.txt", "  scalascala ")
        writeFile("Foo/foo2.txt", "scala scala")
-       
-       
+              
        containsWord(new File("Foo/foo1.txt"), "scala").get should be (false)
    
-       
        containsWord(new File("Foo/foo2.txt"), "scala").get should be (true)
        
        (containsWord(new File("Foo/foo3.txt"), "scala") match {
@@ -96,6 +87,33 @@ class SimpleFindTest extends FlatSpec with Matchers {
        
        removeDir("Foo")  
        
+  }
+  
+  "getResult function" should "handle invalid directory input" in {
+      
+       getResult(new File(""), "scala") should be (List("There is no such directory"))
+       getResult(new File("Fab"),"scala") should be (List("There is no such directory"))
+       getResult(new File("Fab///"), "scala") should be  (List("There is no such directory"))
+              
+  }
+  
+  "getResult function" should "correctly work for valid directory input" in {
+      
+       mkdir("Foo")
+       writeFile("Foo/foo1.txt", "  scalascala ")
+       writeFile("Foo/foo2.txt", "scala scala")
+       
+       mkdir("Foo/Bar")
+       mkdir("Foo/Bar/Bar1")
+       mkdir("Foo/Bar/Bar2")
+       writeFile("Foo/Bar/Bar2/bar1.txt", "  scalascala ")
+       writeFile("Foo/Bar/Bar2/bar2.txt", "scala scala")
+       mkdir("Foo/Bar/Bar3")
+       
+       getResult(new File("Foo"), "scala") should be (List("Foo/foo2.txt", "Foo/Bar/Bar2/bar2.txt"))
+       
+       //removeDir("Foo") 
+              
   }
 
 }
