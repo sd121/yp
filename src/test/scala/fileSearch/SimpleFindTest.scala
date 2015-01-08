@@ -76,5 +76,26 @@ class SimpleFindTest extends FlatSpec with Matchers {
        removeDir("Foo")  
        removeDir("Bar")
   }
+  
+  "containsWord" should "correctly search in the file" in {
+
+       mkdir("Foo")
+       writeFile("Foo/foo1.txt", "  scalascala ")
+       writeFile("Foo/foo2.txt", "scala scala")
+       
+       
+       containsWord(new File("Foo/foo1.txt"), "scala").get should be (false)
+   
+       
+       containsWord(new File("Foo/foo2.txt"), "scala").get should be (true)
+       
+       (containsWord(new File("Foo/foo3.txt"), "scala") match {
+         case Success(b) => "Success"
+         case Failure(ex) => "Failure"
+       })  should be ("Failure")
+       
+       removeDir("Foo")  
+       
+  }
 
 }
