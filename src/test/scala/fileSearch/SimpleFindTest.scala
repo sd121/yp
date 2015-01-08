@@ -112,7 +112,7 @@ class SimpleFindTest extends FlatSpec with Matchers {
        
        getResult(new File("Foo"), "scala") should be (List("Foo/foo2.txt", "Foo/Bar/Bar2/bar2.txt"))
        
-       //removeDir("Foo") 
+       removeDir("Foo") 
               
   }
 
