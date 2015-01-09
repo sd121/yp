@@ -1,4 +1,4 @@
-A simple program that, given a directory and a word to be searched, lists all the files in the directory that contain that word.
+A simple program that, given a directory and a word to be searched, lists all the files in the given directory (and its sub-directories) that contain that word.
 
 Please make sure that "sbt" is installed on your machine.
 
